@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-    crearEstudiante,
+  crearEstudiante,
   editarEstudiante,
   eliminarEstudiante,
   getEstudiantePorId,
@@ -10,6 +10,10 @@ import {
 const router = Router();
 
 router.route("/").get(getEstudiantes).post(crearEstudiante);
-router.route("/:id").get(getEstudiantePorId).put(editarEstudiante).delete(eliminarEstudiante);
+router
+  .route("/:id")
+  .get(getEstudiantePorId)
+  .put(editarEstudiante)
+  .delete(eliminarEstudiante);
 
 export default router;

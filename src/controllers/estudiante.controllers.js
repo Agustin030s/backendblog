@@ -1,11 +1,6 @@
-import {
-  createStudent,
-  deleteStudent,
-  getAllStudents,
-  getStudentById,
-  getStudentByLegajo,
-  updateStudent,
-} from "../database/estudiante.db.js";
+import { createStudent, deleteStudent, updateStudent } from "../database/commands/studentcommands.db.js";
+import { getAllStudents, getStudentById, getStudentByLegajo } from "../database/queries/studentqueries.db.js";
+
 
 export const getEstudiantes = async (req, res) => {
   try {

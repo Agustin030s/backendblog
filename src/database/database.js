@@ -1,12 +1,12 @@
-import "dotenv/config";
-import mongoose from "mongoose";
+import mariadb from "mariadb";
 
-const mongoURI = process.env.MONGODB_URI;
+const pool = mariadb.createPool({
+    host: process.env.DB_HOST           ||'localhost',
+    port: process.env.DB_PORT           || 3306, 
+    user: process.env.DB_USER           ||'root', 
+    password: process.env.DB_PASSWORD   ||'root',
+    database: process.env.DB_DATABASE   ||'virtualizaciondb',
+    connectionLimit: 5,
+});
 
-mongoose.connect(mongoURI);
-
-const datosConexion = mongoose.connection;
-
-datosConexion.once('open', () =>{
-    console.info('BD conectada');
-})
+export default pool;

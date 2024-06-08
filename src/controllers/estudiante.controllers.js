@@ -1,9 +1,16 @@
-import Estudiante from "../database/models/student.js";
+import {
+  createStudent,
+  deleteStudent,
+  getAllStudents,
+  getStudentById,
+  getStudentByLegajo,
+  updateStudent,
+} from "../database/estudiante.db.js";
 
 export const getEstudiantes = async (req, res) => {
   try {
-    const estudiantes = await Estudiante.find();
-    res.status(200).json(data);
+    const estudiantes = await getAllStudents();
+    res.status(200).json(estudiantes);
   } catch (error) {
     console.log(error);
     res.status(404).json({
@@ -15,7 +22,7 @@ export const getEstudiantes = async (req, res) => {
 export const getEstudiantePorId = async (req, res) => {
   try {
     const id = req.params.id;
-    const estudiante = await Estudiante.findById(id);
+    const estudiante = await getStudentById(id);
     res.status(200).json(estudiante);
   } catch (error) {
     console.log(error);
@@ -28,21 +35,22 @@ export const getEstudiantePorId = async (req, res) => {
 export const crearEstudiante = async (req, res) => {
   try {
     const { legajo } = req.body;
-    const searchStudent = await Estudiante.findOne({ legajo });
-    if (searchStudent)
-      res.status(404).json({
+    console.log(req.body);
+    const searchStudent = await getStudentByLegajo(legajo);
+    if (searchStudent) {
+      return res.status(404).json({
         message: `Ya existe un estudiante con el legajo ${legajo}`,
       });
+    }
 
-    const newStudent = new Estudiante(req.body);
-    await newStudent.save();
+    await createStudent(req.body);
     res.status(201).json({
-      message: "El estudiante se creo con éxito",
+      message: "El estudiante se creó con éxito",
     });
   } catch (error) {
     console.log(error);
     res.status(400).json({
-      message: "Ocurrio un error al crear el estudiante",
+      message: "Ocurrió un error al crear el estudiante",
     });
   }
 };
@@ -50,13 +58,13 @@ export const crearEstudiante = async (req, res) => {
 export const editarEstudiante = async (req, res) => {
   try {
     const id = req.params.id;
-    const searchedStudent = await Estudiante.findById(id);
+    const searchedStudent = await getStudentById(id);
     if (!searchedStudent)
       res.status(404).json({
         message: "No se encontro el estudiante a editar",
       });
 
-    await Estudiante.findByIdAndUpdate(id, req.body);
+    await updateStudent(id, req.body);
     res.status(200).json({
       message: "El estudiante se edito con éxito",
     });
@@ -71,13 +79,13 @@ export const editarEstudiante = async (req, res) => {
 export const eliminarEstudiante = async (req, res) => {
   try {
     const id = req.params.id;
-    const searchedStudent = await Estudiante.findById(id);
+    const searchedStudent = await getStudentById(id);
     if (!searchedStudent)
       res.status(404).json({
         message: "No se encontro el estudiante a eliminar",
       });
 
-    await Estudiante.findByIdAndDelete(id);
+    await deleteStudent(id);
     res.status(200).json({
       message: "Estudiante eliminado con éxito",
     });

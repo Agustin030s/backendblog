@@ -4,7 +4,6 @@ import morgan from "morgan";
 import "dotenv/config";
 import path from "path";
 import { fileURLToPath } from "url";
-import userRouter from "./src/routes/user.routes.js";
 import studentRouter from "./src/routes/estudiantes.routes.js";
 
 const app = express();
@@ -29,4 +28,4 @@ app.get("/ports", (req, res) => {
 });
 
 app.use("/api", studentRouter);
-app.use("/api/user", userRouter);
+// app.use("/api/user", userRouter);

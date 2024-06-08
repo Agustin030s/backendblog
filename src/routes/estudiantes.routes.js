@@ -6,14 +6,15 @@ import {
   getEstudiantePorId,
   getEstudiantes,
 } from "../controllers/estudiante.controllers.js";
+import JWTValidation from "../helpers/jwtValidation.js";
 
 const router = Router();
 
-router.route("/").get(getEstudiantes).post(crearEstudiante);
+router.route("/").get(getEstudiantes).post([JWTValidation], crearEstudiante);
 router
   .route("/:id")
   .get(getEstudiantePorId)
-  .put(editarEstudiante)
-  .delete(eliminarEstudiante);
+  .put([JWTValidation], editarEstudiante)
+  .delete([JWTValidation], eliminarEstudiante);
 
 export default router;

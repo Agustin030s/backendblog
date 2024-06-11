@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import studentRouter from "./src/routes/estudiantes.routes.js";
 import userRouter from "./src/routes/user.routes.js";
 import initializeAdminUser from "./src/database/queries/adminUser.js";
+import initializeStudent from "./src/database/queries/defaultStudent.js";
 
 const app = express();
 app.set("port", process.env.PORT || 4000);
@@ -20,6 +21,14 @@ app.listen(app.get("port"), () => {
     })
     .catch((err) => {
       console.error("Error inicializando usuario administrador:", err);
+    });
+
+  initializeStudent()
+    .then(() => {
+      console.info("Estudiante por defecto inicializado correctamente");
+    })
+    .catch((err) => {
+      console.error("Error al inicializar el estudiante por defecto: ", err);
     });
 });
 

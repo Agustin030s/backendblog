@@ -32,7 +32,7 @@ export const getAllStudents = async () => {
     try {
       connect = await pool.getConnection();
       const rows = await connect.query(`SELECT * FROM ${table} WHERE legajo=?`, [legajo]);
-      return rows.length > 0 ? rows[0] : null;
+      return rows;
     } catch (error) {
       return Promise.reject(error);
     } finally {

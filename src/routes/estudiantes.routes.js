@@ -4,6 +4,7 @@ import {
   editarEstudiante,
   eliminarEstudiante,
   getEstudiantePorId,
+  getEstudiantePorLegajo,
   getEstudiantes,
 } from "../controllers/estudiante.controllers.js";
 import JWTValidation from "../helpers/jwtValidation.js";
@@ -16,5 +17,7 @@ router
   .get(getEstudiantePorId)
   .put([JWTValidation], editarEstudiante)
   .delete([JWTValidation], eliminarEstudiante);
+
+router.route("/leg/:legajo").get(getEstudiantePorLegajo);
 
 export default router;

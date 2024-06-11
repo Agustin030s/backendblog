@@ -1,13 +1,20 @@
-import { createStudent, deleteStudent, updateStudent } from "../database/commands/studentcommands.db.js";
-import { getAllStudents, getStudentById, getStudentByLegajo } from "../database/queries/studentqueries.db.js";
-
+import {
+  createStudent,
+  deleteStudent,
+  updateStudent,
+} from "../database/commands/studentcommands.db.js";
+import {
+  getAllStudents,
+  getStudentById,
+  getStudentByLegajo,
+} from "../database/queries/studentqueries.db.js";
 
 export const getEstudiantes = async (req, res) => {
   try {
     const estudiantes = await getAllStudents();
     res.status(200).json(estudiantes);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(404).json({
       message: "No se pueden obtener los datos de los estudiantes",
     });
@@ -20,7 +27,20 @@ export const getEstudiantePorId = async (req, res) => {
     const estudiante = await getStudentById(id);
     res.status(200).json(estudiante);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(404).json({
+      message: "No se pudo obtener los datos del estudiante",
+    });
+  }
+};
+
+export const getEstudiantePorLegajo = async (req, res) => {
+  try {
+    const legajo = req.params.legajo;
+    const estudiante = await getStudentByLegajo(legajo);
+    res.status(200).json(estudiante);
+  } catch (error) {
+    console.error(error);
     res.status(404).json({
       message: "No se pudo obtener los datos del estudiante",
     });
@@ -30,7 +50,6 @@ export const getEstudiantePorId = async (req, res) => {
 export const crearEstudiante = async (req, res) => {
   try {
     const { legajo } = req.body;
-    console.log(req.body);
     const searchStudent = await getStudentByLegajo(legajo);
     if (searchStudent) {
       return res.status(404).json({
@@ -43,7 +62,7 @@ export const crearEstudiante = async (req, res) => {
       message: "El estudiante se creó con éxito",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(400).json({
       message: "Ocurrió un error al crear el estudiante",
     });
@@ -64,7 +83,7 @@ export const editarEstudiante = async (req, res) => {
       message: "El estudiante se edito con éxito",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(400).json({
       message: "Ocurrio un error al editar el estudiante",
     });
@@ -85,7 +104,7 @@ export const eliminarEstudiante = async (req, res) => {
       message: "Estudiante eliminado con éxito",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({
       message: "Ocurrio un error al intentar eliminar el estudiante",
     });

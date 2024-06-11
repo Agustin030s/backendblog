@@ -7,7 +7,7 @@ export const getUsuarios = async (req, res) => {
     const users = await getAllUsers();
     res.status(200).json(users);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(404).json({
       message: "No se pudiero obtener los usuarios",
     });
